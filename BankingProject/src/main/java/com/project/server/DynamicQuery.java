@@ -7,21 +7,21 @@ public class DynamicQuery {
     Director d= new Director();
 
     public class Select {
-        private List<String> columns = new ArrayList<>();
+        private List<String> columns = new ArrayList<String>();
 
-        private List<String> tables = new ArrayList<>();
+        private List<String> tables = new ArrayList<String>();
 
-        private List<String> joins = new ArrayList<>();
+        private List<String> joins = new ArrayList<String>();
 
-        private List<String> leftJoins = new ArrayList<>();
+        private List<String> leftJoins = new ArrayList<String>();
 
-        private List<String> wheres = new ArrayList<>();
+        private List<String> wheres = new ArrayList<String>();
 
-        private List<String> orderBys = new ArrayList<>();
+        private List<String> orderBys = new ArrayList<String>();
 
-        private List<String> groupBys = new ArrayList<>();
+        private List<String> groupBys = new ArrayList<String>();
 
-        private List<String> havings = new ArrayList<>();
+        private List<String> havings = new ArrayList<String>();
 
         public Select() {
 
@@ -103,8 +103,8 @@ public class DynamicQuery {
     }
 
     public class Insert {
-        private List<String> tables = new ArrayList<>();
-        private List<String> values = new ArrayList<>();
+        private List<String> tables = new ArrayList<String>();
+        private List<String> values = new ArrayList<String>();
 
         public Insert() {
         }
@@ -134,11 +134,11 @@ public class DynamicQuery {
     }
 
     public class Update {
-        private List<String> tables = new ArrayList<>();
-        private List<String> sets = new ArrayList<>();
-        private List<String> orderBys = new ArrayList<>();
-        private List<String> whereAnds = new ArrayList<>();
-        private List<String> whereOrs = new ArrayList<>();
+        private List<String> tables = new ArrayList<String>();
+        private List<String> sets = new ArrayList<String>();
+        private List<String> orderBys = new ArrayList<String>();
+        private List<String> whereAnds = new ArrayList<String>();
+        private List<String> whereOrs = new ArrayList<String>();
 
         public Update() {
         }
@@ -185,9 +185,9 @@ public class DynamicQuery {
     }
 
     public class Delete {
-        private List<String> tables = new ArrayList<>();
-        private List<String> wheres = new ArrayList<>();
-        private List<String> orderBys = new ArrayList<>();
+        private List<String> tables = new ArrayList<String>();
+        private List<String> wheres = new ArrayList<String>();
+        private List<String> orderBys = new ArrayList<String>();
 
         public Delete(List<String> tables) {
             this.tables = tables;
