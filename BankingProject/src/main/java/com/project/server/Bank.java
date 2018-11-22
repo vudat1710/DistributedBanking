@@ -11,6 +11,7 @@ public class Bank {
 		if (account != null) {
 			account.setBalance(account.getBalance() + amount);
 			account.addTransaction("Deposit", amount);
+			query.updateAcc(account);
 			return account.getBalance();
 		} else {
 			System.out.println("Not valid account number!");

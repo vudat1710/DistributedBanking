@@ -6,11 +6,28 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 import com.project.server.DynamicQuery.Select;
+import com.project.server.DynamicQuery.Update;
 
 public class Query {
     private Director dr = new Director();
     private DynamicQuery d = new DynamicQuery();
     private ConnectDB connectDB = new ConnectDB();
+
+    public int updateAcc(Account acc) throws SQLException {
+        Connection connection = connectDB.getConnection();
+        Update sql = d.new Update()
+                .table("account")
+                .set(dr.equals("balance", "\"" + acc.getBalance() + "\""))
+                .whereAnd(dr.equals("username", "\"" + acc.getUsername() + "\""))
+                .whereAnd(dr.equals("password", "\"" + acc.getPassword() + "\""));
+        System.out.println(String.valueOf(sql));
+        PreparedStatement ps = connection.prepareStatement(String.valueOf(sql));
+        int rs = ps.executeUpdate();
+        if (rs > 0) {
+            return 1;
+        } else return 0;
+
+    }
 
     public boolean isInDB(String username, String password) throws SQLException {
         boolean isIn = true;
@@ -46,7 +63,7 @@ public class Query {
         Select sql = d.new Select()
 //                .column("account_num")
                 .from("account")
-                .where(dr.equals("account_num", "\""+acc_num+"\""));
+                .where(dr.equals("account_num", "\"" + acc_num + "\""));
         System.out.println(String.valueOf(sql));
         PreparedStatement ps = connection.prepareStatement(String.valueOf(sql));
         try {
