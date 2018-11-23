@@ -11,7 +11,7 @@ public class Director {
     }
 
     public String like(String column_name, String b) {
-        return "" + column_name + " like '%" + b + "%'";
+        return "" + column_name + " like \'%" + b + "%\'";
     }
 
     public void appendList(StringBuilder sql, List<String> list, String init, String sep, String end) {
