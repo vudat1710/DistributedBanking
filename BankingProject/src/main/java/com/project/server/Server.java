@@ -8,7 +8,7 @@ import java.util.List;
 
 public class Server extends Thread{
 	private final int serverPort;
-	private ArrayList<ServerWorker> workerList = new ArrayList<ServerWorker>();
+	private static ArrayList<ServerWorker> workerList = new ArrayList<ServerWorker>();
 	
 	public Server(int serverPort) {
 		this.serverPort = serverPort;
@@ -16,6 +16,9 @@ public class Server extends Thread{
 	
 	public List<ServerWorker> getWorkerList() {
 		return workerList;
+	}
+	public static int getWorkerListSize() {
+		return workerList.size();
 	}
 	
 	@Override
