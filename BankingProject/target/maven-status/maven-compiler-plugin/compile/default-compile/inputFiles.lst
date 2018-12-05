@@ -1,0 +1,14 @@
+/home/ahcogn/git_hub/DistributedBanking/BankingProject/src/main/java/com/project/server/Account.java
+/home/ahcogn/git_hub/DistributedBanking/BankingProject/src/main/java/com/project/client/ATM.java
+/home/ahcogn/git_hub/DistributedBanking/BankingProject/src/main/java/com/project/server/Query.java
+/home/ahcogn/git_hub/DistributedBanking/BankingProject/src/main/java/com/project/server/ServerMain.java
+/home/ahcogn/git_hub/DistributedBanking/BankingProject/src/main/java/com/project/server/MessageQueue.java
+/home/ahcogn/git_hub/DistributedBanking/BankingProject/src/main/java/com/project/server/ServerWorker.java
+/home/ahcogn/git_hub/DistributedBanking/BankingProject/src/main/java/com/project/server/Bank.java
+/home/ahcogn/git_hub/DistributedBanking/BankingProject/src/main/java/com/project/server/DynamicQuery.java
+/home/ahcogn/git_hub/DistributedBanking/BankingProject/src/main/java/com/project/server/Identification.java
+/home/ahcogn/git_hub/DistributedBanking/BankingProject/src/main/java/com/project/server/ConnectDB.java
+/home/ahcogn/git_hub/DistributedBanking/BankingProject/src/main/java/com/project/server/Director.java
+/home/ahcogn/git_hub/DistributedBanking/BankingProject/src/main/java/com/project/server/Server.java
+/home/ahcogn/git_hub/DistributedBanking/BankingProject/src/main/java/com/project/server/Transaction.java
+/home/ahcogn/git_hub/DistributedBanking/BankingProject/src/main/java/com/project/client/ClientListener.java

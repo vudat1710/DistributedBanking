@@ -6,10 +6,10 @@ import java.sql.SQLException;
 
 public class ConnectDB {
     public Connection getConnection() throws SQLException {
-        String user = "sql12265331";
-        String pass = "yVSnP7gTYi";
+        String user = "sql12265417";
+        String pass = "wv4DCVXxiA";
         String dbClass = "com.mysql.jdbc.Driver";
-        String dbDriver = "jdbc:mysql://sql12.freemysqlhosting.net/sql12265331?useSSL=false&useUnicode=true&characterEncoding=UTF-8";
+        String dbDriver = "jdbc:mysql://sql12.freemysqlhosting.net/sql12265417?useSSL=false&useUnicode=true&characterEncoding=UTF-8";
         Connection conn = null;
         //load driver
         try {

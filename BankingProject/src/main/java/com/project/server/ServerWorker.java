@@ -6,7 +6,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.mysql.jdbc.StringUtils;
+//import com.mysql.jdbc.StringUtils;
 
 public class ServerWorker extends Thread {
 
@@ -46,9 +46,9 @@ public class ServerWorker extends Thread {
         String line;
         List<String> tokens = new ArrayList<String>();
         while ((line = reader.readLine()) != null) {
-            System.out.println("token receive: " + line);
+//            System.out.println("token receive: " + line);
             tokens.add(line);
-            System.out.println("tokens size: " + tokens.size());
+//            System.out.println("tokens size: " + tokens.size());
             if (tokens.size() == 2) {
                 break;
             }
@@ -68,7 +68,7 @@ public class ServerWorker extends Thread {
 //            if (user.equals("aa") && password.equals("bb")) {
                 Identification identification = new Identification(user, "port::" + clientSocket.getPort());
                 System.out.println(identification.toString());
-                MessageQueue.addMQueue(identification);
+//                MessageQueue.addMQueue(identification);
                 String msg = "Login successfully!";
                 pw.println(msg);
                 Bank bank = new Bank();
@@ -88,26 +88,33 @@ public class ServerWorker extends Thread {
 
                     List<String> strings = new ArrayList();
                     switch (Integer.parseInt(reader.readLine())) {
-                        case 1:
-                            if (!identification.isReadOnly()) {
-                                pw.println("case 1");
-                                strings = enterArgs(outputStream);
-                                int depositResult = bank.deposit(strings.get(0), Integer.parseInt(strings.get(1)));
-                                if (depositResult != 0) {
-                                    String mString = "Your balance now is: " + depositResult;
-                                    pw.println(mString);
+                        case 1:// Deposit
+//                            if (!identification.isReadOnly()) {
+                            pw.println("case 1");
+                            strings = enterArgs(outputStream);
+                            int depositResult = bank.deposit(strings.get(0), Integer.parseInt(strings.get(1)));
+                            if (depositResult != 0) {
+                                String mString = "Your balance now is: " + depositResult;
+                                pw.println(mString);
 //                            outputStream.write(mString.getBytes());
-                                }
-                            } else pw.println("da co nguoi dang nhap truoc ban, vui long cho");
+                            }
+//                            } else {
+//                                pw.println("da co nguoi dang nhap truoc ban, vui long cho");
+//
+//                            }
                             break;
-                        case 2:
+                        case 2: // Withdraw
+                            MessageQueue.addMQueue(identification);
                             if (!identification.isReadOnly()) {
                                 strings = enterArgs(outputStream);
                                 int withdrawResult = bank.withdraw(strings.get(0), Integer.parseInt(strings.get(1)));
                                 String mString1 = "Your balance now is: " + withdrawResult;
                                 pw.println(mString1);
 //                        outputStream.write(mString1.getBytes());
-                            } else pw.println("da co nguoi dang nhap truoc ban, vui long cho");
+                            } else {
+                                MessageQueue.removeQueue(identification);
+                                pw.println("da co nguoi dang nhap truoc ban, vui long cho");
+                            }
                             break;
                         case 3:
                             String msg1 = "Enter account number: ";

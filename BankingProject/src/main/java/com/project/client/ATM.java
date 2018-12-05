@@ -8,7 +8,8 @@ public class ATM {
 
     public static void main(String[] args) {
         try {
-            Socket client = new Socket("localhost", 8888);
+            String ip = args[0];
+            Socket client = new Socket(ip, 8888);
             System.out.println("Client port is " + client.getLocalPort());
             OutputStream os = client.getOutputStream();
             PrintWriter pw = new PrintWriter(os, true);
