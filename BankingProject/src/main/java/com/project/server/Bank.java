@@ -101,4 +101,20 @@ public class Bank {
 			return 0;
 		}
 	}
+	
+	public boolean register(String username, String password) throws SQLException {
+		int dbId = query.getDbId();
+//		if(!Consistency.check(username, dbId)) {
+//			Consistency.doConsistence(username, dbId);
+//		}
+		boolean done = query.register(username, password);
+//		if (done) {
+////			Consistency.setLastModifiedDb(account_num, 0);
+//			return account.getBalance();
+//		} else {
+//			System.out.println("Dang ki khong thanh cong!");
+//			return 0;
+//		}
+		return done;
+	}
 }

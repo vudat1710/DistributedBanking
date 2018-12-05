@@ -12,7 +12,7 @@ import java.util.Map;
 
 public class Consistency {
 	
-	private static final String FILE_NAME = "./consistence.txt";
+	private static final String FILE_NAME = "consistence.txt";
 	private static Map<String, Integer> lastModifiedDb = new HashMap<>();
 	
 	public static void genConsistency() {

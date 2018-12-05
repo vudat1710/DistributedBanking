@@ -5,6 +5,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+import com.project.server.DynamicQuery.Insert;
 import com.project.server.DynamicQuery.Select;
 import com.project.server.DynamicQuery.Update;
 
@@ -99,4 +100,45 @@ public class Query {
         return account;
     }
   
+    public boolean register(String username, String password) throws SQLException {
+    	boolean done = false;
+    	Connection connection = connectDB.getConnection();
+        String sql = "SELECT * FROM account ORDER BY userid DESC LIMIT 1";
+        System.out.println(String.valueOf(sql));
+        PreparedStatement ps = connection.prepareStatement(sql);
+        try {
+        	ResultSet rs = ps.executeQuery(sql);
+        	while(rs.next()) {
+        		int userid = rs.getInt(2);
+        		int acc_num = Integer.parseInt(rs.getString(5));
+        		int balance = 50000;
+        		Insert sql1 = d.new Insert()
+        				.table("account")
+        				.value("\"" + username + "\"")
+        				.value(Integer.toString(userid + 1))
+        				.value(password)
+        				.value(Integer.toString(balance))
+        				.value("\""+ Integer.toString(acc_num + 1) + "\"");
+        		PreparedStatement ps1 = connection.prepareStatement(String.valueOf(sql1));
+        		System.out.println(String.valueOf(sql1));
+        		try {
+					ps1.executeUpdate();
+					done = true;
+				} catch (Exception e) {
+		            System.out.println("Error: " + e);
+					throw e;
+				}
+        	}
+            
+        } catch (SQLException e) {
+            System.out.println("Error: " + e);
+            throw e;
+        } finally {
+            if (ps != null) {
+                ps.close();
+                connection.close();
+            }
+        }
+    	return done;
+    }
 }

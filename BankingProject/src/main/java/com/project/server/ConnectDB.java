@@ -19,15 +19,15 @@ public class ConnectDB {
     	switch(dbId) {
     	case 1:
     		System.out.println("1");
-    		user = "sql12265331";
-            pass = "yVSnP7gTYi";
-            dbDriver = "jdbc:mysql://sql12.freemysqlhosting.net/sql12265331?useSSL=false&useUnicode=true&characterEncoding=UTF-8";
+    		user = "root";
+            pass = "123456";
+            dbDriver = "jdbc:mysql://localhost:3306/banking_sys";
             break;
     	case 2:
     		System.out.println("2");
-    		user = "sql12266641";
-            pass = "xx1r2QVuXx";
-            dbDriver = "jdbc:mysql://sql12.freemysqlhosting.net/sql12266641?useSSL=false&useUnicode=true&characterEncoding=UTF-8";
+    		user = "root";
+            pass = "123456";
+            dbDriver = "jdbc:mysql://localhost:3306/banking_sys";
             break;
     	}
     }
@@ -36,15 +36,15 @@ public class ConnectDB {
     	switch(a) {
     	case 1:
     		System.out.println("1");
-    		user = "sql12265331";
-            pass = "yVSnP7gTYi";
-            dbDriver = "jdbc:mysql://sql12.freemysqlhosting.net/sql12265331?useSSL=false&useUnicode=true&characterEncoding=UTF-8";
+    		user = "root";
+            pass = "123456";
+            dbDriver = "jdbc:mysql://localhost:3306/banking_sys";
             break;
     	case 2:
     		System.out.println("2");
-    		user = "sql12266641";
-            pass = "xx1r2QVuXx";
-            dbDriver = "jdbc:mysql://sql12.freemysqlhosting.net/sql12266641?useSSL=false&useUnicode=true&characterEncoding=UTF-8";
+    		user = "root";
+            pass = "123456";
+            dbDriver = "jdbc:mysql://localhost:3306/banking_sys";
             break;
     	}
     }
