@@ -165,7 +165,7 @@ public class ServerWorker extends Thread {
                         case 4:
                         	if (!identification.isReadOnly()) {
                               strings = enterArgs(outputStream);
-                              int withdrawResult = bank.transfer(acc_num, strings.get(0),Integer.parseInt(strings.get(0)));
+                              int withdrawResult = bank.transfer(acc_num, strings.get(0),Integer.parseInt(strings.get(1)));
                               String mString1 = "Your balance now is: " + withdrawResult;
                               pw.println(mString1);
 //                      outputStream.write(mString1.getBytes());
@@ -195,20 +195,22 @@ public class ServerWorker extends Thread {
     
     private boolean handleRegister(PrintWriter pw, List<String> tokens, BufferedReader reader) throws SQLException {
     	boolean done = false;
+    	boolean done2 = false;
     	if (tokens.size() == 2) {
             String username = tokens.get(0);
             String password = tokens.get(1);
             pw.println("Dang dang ki xin doi....");
-            done = query.register(username, password);
-            if (done) {
+            done =  new Query(1).register(username, password);
+            done2 = new Query(2).register(username, password);
+            if (done && done2) {
             	pw.println("Dang ki thanh cong!");
-            	return done;
+            	return done&&done2;
             } else {
 				pw.println("Dang ki that bai!");
-				return done;
+				return done&&done2;
 			}
     	}
-    	return done;
+    	return done&&done2;
     }
 
     private List<String> enterArgs(OutputStream outputStream) throws IOException {

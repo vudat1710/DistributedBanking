@@ -20,14 +20,14 @@ public class ConnectDB {
     	case 1:
     		System.out.println("1");
     		user = "root";
-            pass = "123456";
-            dbDriver = "jdbc:mysql://localhost:3306/banking_sys";
+            pass = "tri200698";
+            dbDriver = "jdbc:mysql://localhost:3306/Distributed";
             break;
     	case 2:
     		System.out.println("2");
     		user = "root";
-            pass = "123456";
-            dbDriver = "jdbc:mysql://localhost:3306/banking_sys";
+            pass = "tri200698";
+            dbDriver = "jdbc:mysql://localhost:3306/Distributed2";
             break;
     	}
     }
@@ -37,14 +37,14 @@ public class ConnectDB {
     	case 1:
     		System.out.println("1");
     		user = "root";
-            pass = "123456";
-            dbDriver = "jdbc:mysql://localhost:3306/banking_sys";
+            pass = "tri200698";
+            dbDriver = "jdbc:mysql://localhost:3306/Distributed";
             break;
     	case 2:
     		System.out.println("2");
     		user = "root";
-            pass = "123456";
-            dbDriver = "jdbc:mysql://localhost:3306/banking_sys";
+            pass = "tri200698";
+            dbDriver = "jdbc:mysql://localhost:3306/Distributed2";
             break;
     	}
     }

@@ -25,6 +25,22 @@ public class Query {
     	return connectDB.getDbId();
     }
     
+    public int updateBalance(String acc_num, int balance) throws SQLException{
+        Connection connection = connectDB.getConnection();
+        Account acc = selectByAccNum(acc_num);
+        int new_bal = balance + acc.getBalance();
+        Update sql = d.new Update()
+                .table("account")
+                .set(dr.equals("balance", "\"" + new_bal + "\""))
+                .whereAnd(dr.equals("account_num", "\"" + acc_num + "\""));
+        System.out.println(String.valueOf(sql));
+        PreparedStatement ps = connection.prepareStatement(String.valueOf(sql));
+        int rs = ps.executeUpdate();
+        if (rs > 0) {
+            return 1;
+        } else return 0;
+    }
+    
     public int updateAcc(Account acc) throws SQLException {
         Connection connection = connectDB.getConnection();
         Update sql = d.new Update()
@@ -111,7 +127,7 @@ public class Query {
         	while(rs.next()) {
         		int userid = rs.getInt(2);
         		int acc_num = Integer.parseInt(rs.getString(5));
-        		int balance = 50000;
+        		int balance = 0;
         		Insert sql1 = d.new Insert()
         				.table("account")
         				.value("\"" + username + "\"")

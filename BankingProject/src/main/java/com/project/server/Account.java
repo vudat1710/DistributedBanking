@@ -4,8 +4,6 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-import com.mysql.cj.exceptions.ClosedOnExpiredPasswordException;
-
 public class Account {
     private String username;
     private int userid;
