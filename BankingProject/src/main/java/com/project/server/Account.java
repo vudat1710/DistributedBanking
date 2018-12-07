@@ -10,7 +10,7 @@ public class Account {
     private String password;
     private int balance;
     private String account_num;
-    private List<Transaction> transactions;
+
     
 
     public Account(String username, int userid, String password, int balance, String account_num, int DbId) {
@@ -19,28 +19,13 @@ public class Account {
         this.password = password;
         this.balance = balance;
         this.account_num = account_num;
-        transactions = new ArrayList<Transaction>();
     }
 
     public Account() {
         // TODO Auto-generated constructor stub
     }
 
-    public void addTransaction(String type, int amount) {
-        Transaction e = new Transaction(amount, type, getBalance());
-        transactions.add(e);
-    }
 
-    public List<Transaction> geTransactionsByDate(Date startDate, Date endDate) {
-        List<Transaction> statementList = new ArrayList<Transaction>();
-        for (int i = 0; i < transactions.size(); i++) {
-            Transaction t = transactions.get(i);
-            if (t.getTrans_date().after(startDate) && t.getTrans_date().before(endDate)) {
-                statementList.add(t);
-            }
-        }
-        return statementList;
-    }
 
     public String getUsername() {
         return username;

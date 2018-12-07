@@ -39,6 +39,8 @@ public class ServerWorker extends Thread {
     
     private void handleSocketClient() throws IOException, SQLException {
         // TODO Auto-generated method stub
+    	boolean done = true;
+    	while(done) {
     	OutputStream out = clientSocket.getOutputStream();
     	PrintWriter pwInput = new PrintWriter(out, true);
     	String menu =
@@ -68,12 +70,11 @@ public class ServerWorker extends Thread {
                         break;
                     }
                 }
-                boolean done = handleRegister(pw, tokens, reader);
-                if (done) {
-                	handleLogin(pw, tokens, reader);
-                } else {
-                	pw.println("Dang ki khong thanh cong");
-                }
+                done = !handleRegister(pw, tokens, reader);
+                if(!done) {
+                String acc_num = query.isInDB(tokens.get(0), tokens.get(1));
+            	pw.println("\n\n Your account number is: " + acc_num);}
+                break;
         	case 2:
         		String msg2 = "Enter username and password respectively: ";
                 this.outputStream = clientSocket.getOutputStream();
@@ -96,7 +97,7 @@ public class ServerWorker extends Thread {
         	default:
         		break;
         }
-
+    }
     }
 
     //    private void handleLogin(OutputStream outputStream, List<String> tokens) throws SQLException, IOException {
@@ -200,17 +201,20 @@ public class ServerWorker extends Thread {
             String username = tokens.get(0);
             String password = tokens.get(1);
             pw.println("Dang dang ki xin doi....");
-            done =  new Query(1).register(username, password);
-            done2 = new Query(2).register(username, password);
-            if (done && done2) {
-            	pw.println("Dang ki thanh cong!");
-            	return done&&done2;
-            } else {
-				pw.println("Dang ki that bai!");
-				return done&&done2;
+            try {
+            	done =  new Query(1).register(username, password);
+            	done2 = new Query(2).register(username, password);
+            	if (done && done2) {
+            		pw.println("Register successful!");
+            		return true;
+            		}
+            	}
+            catch(SQLException e) {
+				pw.println("Register Failed!");
+				return false;
 			}
     	}
-    	return done&&done2;
+    	return false;
     }
 
     private List<String> enterArgs(OutputStream outputStream) throws IOException {
