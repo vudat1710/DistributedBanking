@@ -18,7 +18,7 @@ public class ClientListener extends Thread {
                     System.out.println(s);
                 }
             }
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
