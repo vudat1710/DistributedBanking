@@ -5,7 +5,7 @@ import java.net.Socket;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
- 
+
 
 public class ServerWorker extends Thread {
 
@@ -13,12 +13,11 @@ public class ServerWorker extends Thread {
     private final Server server;
     private OutputStream outputStream;
     private Query query;
-    
-   
-    
+
+
     public ServerWorker(Server server, Socket clientSocket) {
-    	query = new Query();
-    	this.server = server;
+        query = new Query();
+        this.server = server;
         this.clientSocket = clientSocket;
     }
 
@@ -35,69 +34,70 @@ public class ServerWorker extends Thread {
             e.printStackTrace();
         }
     }
-    
-    
+
+
     private void handleSocketClient() throws IOException, SQLException {
         // TODO Auto-generated method stub
-    	boolean done = true;
-    	while(done) {
-    	OutputStream out = clientSocket.getOutputStream();
-    	PrintWriter pwInput = new PrintWriter(out, true);
-    	String menu =
-                "------------Choose action you want to perform----------\n"
-                        + "1. Register\n"
-                        + "2. Login\n"
-                        + "Enter the number you want to choose: ";
-        pwInput.println(menu);
-        InputStream in = clientSocket.getInputStream();
-        BufferedReader reader1 = new BufferedReader(new InputStreamReader(in));
-        switch (Integer.parseInt(reader1.readLine())) {
-        	case 1:
-        		String msg = "Enter username and password respectively: ";
-                this.outputStream = clientSocket.getOutputStream();
-                PrintWriter pw = new PrintWriter(outputStream, true);
-                pw.println(msg);
+        boolean done = true;
+        while (done) {
+            OutputStream out = clientSocket.getOutputStream();
+            PrintWriter pwInput = new PrintWriter(out, true);
+            String menu =
+                    "------------Choose action you want to perform----------\n"
+                            + "1. Register\n"
+                            + "2. Login\n"
+                            + "Enter the number you want to choose: ";
+            pwInput.println(menu);
+            InputStream in = clientSocket.getInputStream();
+            BufferedReader reader1 = new BufferedReader(new InputStreamReader(in));
+            switch (Integer.parseInt(reader1.readLine())) {
+                case 1:
+                    String msg = "Enter username and password respectively: ";
+                    this.outputStream = clientSocket.getOutputStream();
+                    PrintWriter pw = new PrintWriter(outputStream, true);
+                    pw.println(msg);
 
-                InputStream inputStream = clientSocket.getInputStream();
-                BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream));
-                String line;
-                List<String> tokens = new ArrayList<String>();
-                while ((line = reader.readLine()) != null) {
-                    System.out.println("token receive: " + line);
-                    tokens.add(line);
-                    System.out.println("tokens size: " + tokens.size());
-                    if (tokens.size() == 2) {
-                        break;
+                    InputStream inputStream = clientSocket.getInputStream();
+                    BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream));
+                    String line;
+                    List<String> tokens = new ArrayList<String>();
+                    while ((line = reader.readLine()) != null) {
+                        System.out.println("token receive: " + line);
+                        tokens.add(line);
+                        System.out.println("tokens size: " + tokens.size());
+                        if (tokens.size() == 2) {
+                            break;
+                        }
                     }
-                }
-                done = !handleRegister(pw, tokens, reader);
-                if(!done) {
-                String acc_num = query.isInDB(tokens.get(0), tokens.get(1));
-            	pw.println("\n\n Your account number is: " + acc_num);}
-                break;
-        	case 2:
-        		String msg2 = "Enter username and password respectively: ";
-                this.outputStream = clientSocket.getOutputStream();
-                PrintWriter pw2 = new PrintWriter(outputStream, true);
-                pw2.println(msg2);
+                    done = !handleRegister(pw, tokens, reader);
+                    if (!done) {
+                        String acc_num = query.isInDB(tokens.get(0), tokens.get(1));
+                        pw.println("\n\n Your account number is: " + acc_num);
+                    }
+                    break;
+                case 2:
+                    String msg2 = "Enter username and password respectively: ";
+                    this.outputStream = clientSocket.getOutputStream();
+                    PrintWriter pw2 = new PrintWriter(outputStream, true);
+                    pw2.println(msg2);
 
-                InputStream inputStream2 = clientSocket.getInputStream();
-                BufferedReader reader2 = new BufferedReader(new InputStreamReader(inputStream2));
-                String line2;
-                List<String> tokens2 = new ArrayList<String>();
-                while ((line2 = reader2.readLine()) != null) {
-                    System.out.println("token receive: " + line2);
-                    tokens2.add(line2);
-                    System.out.println("tokens size: " + tokens2.size());
-                    if (tokens2.size() == 2) {
-                        break;
+                    InputStream inputStream2 = clientSocket.getInputStream();
+                    BufferedReader reader2 = new BufferedReader(new InputStreamReader(inputStream2));
+                    String line2;
+                    List<String> tokens2 = new ArrayList<String>();
+                    while ((line2 = reader2.readLine()) != null) {
+                        System.out.println("token receive: " + line2);
+                        tokens2.add(line2);
+                        System.out.println("tokens size: " + tokens2.size());
+                        if (tokens2.size() == 2) {
+                            break;
+                        }
                     }
-                }
-                handleLogin(pw2, tokens2, reader2);
-        	default:
-        		break;
+                    handleLogin(pw2, tokens2, reader2);
+                default:
+                    break;
+            }
         }
-    }
     }
 
     //    private void handleLogin(OutputStream outputStream, List<String> tokens) throws SQLException, IOException {
@@ -164,14 +164,14 @@ public class ServerWorker extends Thread {
 //                        outputStream.write(mString2.getBytes());
                             break;
                         case 4:
-                        	if (!identification.isReadOnly()) {
-                              strings = enterArgs(outputStream);
-                              int withdrawResult = bank.transfer(acc_num, strings.get(0),Integer.parseInt(strings.get(1)));
-                              String mString1 = "Your balance now is: " + withdrawResult;
-                              pw.println(mString1);
+                            if (!identification.isReadOnly()) {
+                                strings = enterArgs(outputStream);
+                                int withdrawResult = bank.transfer(acc_num, strings.get(0), Integer.parseInt(strings.get(1)));
+                                String mString1 = "Your balance now is: " + withdrawResult;
+                                pw.println(mString1);
 //                      outputStream.write(mString1.getBytes());
-                          } else pw.println("da co nguoi dang nhap truoc ban, vui long cho");
-                          break;
+                            } else pw.println("da co nguoi dang nhap truoc ban, vui long cho");
+                            break;
                         case 5:
                             handleLogoff(identification);
                             out = true;
@@ -187,34 +187,33 @@ public class ServerWorker extends Thread {
                 String msg = "Login failed! Not valid username or password!";
                 pw.println(msg);
 //                outputStream.write(msg.getBytes());
-                
+
                 server.removeWorker(this);
                 clientSocket.close();
             }
         }
     }
-    
+
     private boolean handleRegister(PrintWriter pw, List<String> tokens, BufferedReader reader) throws SQLException {
-    	boolean done = false;
-    	boolean done2 = false;
-    	if (tokens.size() == 2) {
+        boolean done = false;
+        boolean done2 = false;
+        if (tokens.size() == 2) {
             String username = tokens.get(0);
             String password = tokens.get(1);
             pw.println("Dang dang ki xin doi....");
             try {
-            	done =  new Query(1).register(username, password);
-            	done2 = new Query(2).register(username, password);
-            	if (done && done2) {
-            		pw.println("Register successful!");
-            		return true;
-            		}
-            	}
-            catch(SQLException e) {
-				pw.println("Register Failed!");
-				return false;
-			}
-    	}
-    	return false;
+                done = new Query(1).register(username, password);
+                done2 = new Query(2).register(username, password);
+                if (done && done2) {
+                    pw.println("Register successful!");
+                    return true;
+                }
+            } catch (SQLException e) {
+                pw.println("Register Failed!");
+                return false;
+            }
+        }
+        return false;
     }
 
     private List<String> enterArgs(OutputStream outputStream) throws IOException {
@@ -235,7 +234,7 @@ public class ServerWorker extends Thread {
         }
         return strings;
     }
-    
+
     private List<String> enterAmount(OutputStream outputStream) throws IOException {
         String msg = "Enter amount : ";
         PrintWriter pw = new PrintWriter(outputStream, true);

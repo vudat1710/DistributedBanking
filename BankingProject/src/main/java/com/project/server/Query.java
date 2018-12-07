@@ -13,19 +13,20 @@ public class Query {
     private Director dr = new Director();
     private DynamicQuery d = new DynamicQuery();
     private ConnectDB connectDB;
-    
+
     public Query() {
-    	connectDB = new ConnectDB();
+        connectDB = new ConnectDB();
     }
+
     public Query(int a) {
-    	connectDB = new ConnectDB(a);
+        connectDB = new ConnectDB(a);
     }
-    
+
     public int getDbId() {
-    	return connectDB.getDbId();
+        return connectDB.getDbId();
     }
-    
-    public int updateBalance(String acc_num, int balance) throws SQLException{
+
+    public int updateBalance(String acc_num, int balance) throws SQLException {
         Connection connection = connectDB.getConnection();
         Account acc = selectByAccNum(acc_num);
         int new_bal = balance + acc.getBalance();
@@ -40,7 +41,7 @@ public class Query {
             return 1;
         } else return 0;
     }
-    
+
     public int updateAcc(Account acc) throws SQLException {
         Connection connection = connectDB.getConnection();
         Update sql = d.new Update()
@@ -58,8 +59,8 @@ public class Query {
     }
 
     public String isInDB(String username, String password) throws SQLException {
-    	String acc_num = null;
-    	Connection connection = connectDB.getConnection();
+        String acc_num = null;
+        Connection connection = connectDB.getConnection();
         Select sql = d.new Select()
 //                .column("account_num")
                 .from("account")
@@ -70,9 +71,9 @@ public class Query {
         try {
             ResultSet rs = ps.executeQuery(String.valueOf(sql));
             if (rs.next()) {
-            	acc_num = rs.getString(5);
+                acc_num = rs.getString(5);
             }
-            
+
         } catch (SQLException e) {
             System.out.println("Error: " + e);
             throw e;
@@ -115,37 +116,37 @@ public class Query {
         }
         return account;
     }
-  
+
     public boolean register(String username, String password) throws SQLException {
-    	boolean done = false;
-    	Connection connection = connectDB.getConnection();
+        boolean done = false;
+        Connection connection = connectDB.getConnection();
         String sql = "SELECT * FROM account ORDER BY userid DESC LIMIT 1";
         System.out.println(String.valueOf(sql));
         PreparedStatement ps = connection.prepareStatement(sql);
         try {
-        	ResultSet rs = ps.executeQuery(sql);
-        	while(rs.next()) {
-        		int userid = rs.getInt(2);
-        		int acc_num = Integer.parseInt(rs.getString(5));
-        		int balance = 0;
-        		Insert sql1 = d.new Insert()
-        				.table("account")
-        				.value("\"" + username + "\"")
-        				.value(Integer.toString(userid + 1))
-        				.value(password)
-        				.value(Integer.toString(balance))
-        				.value("\""+ Integer.toString(acc_num + 1) + "\"");
-        		PreparedStatement ps1 = connection.prepareStatement(String.valueOf(sql1));
-        		System.out.println(String.valueOf(sql1));
-        		try {
-					ps1.executeUpdate();
-					done = true;
-				} catch (Exception e) {
-		            System.out.println("Error: " + e);
-					throw e;
-				}
-        	}
-            
+            ResultSet rs = ps.executeQuery(sql);
+            while (rs.next()) {
+                int userid = rs.getInt(2);
+                int acc_num = Integer.parseInt(rs.getString(5));
+                int balance = 0;
+                Insert sql1 = d.new Insert()
+                        .table("account")
+                        .value("\"" + username + "\"")
+                        .value(Integer.toString(userid + 1))
+                        .value(password)
+                        .value(Integer.toString(balance))
+                        .value("\"" + Integer.toString(acc_num + 1) + "\"");
+                PreparedStatement ps1 = connection.prepareStatement(String.valueOf(sql1));
+                System.out.println(String.valueOf(sql1));
+                try {
+                    ps1.executeUpdate();
+                    done = true;
+                } catch (Exception e) {
+                    System.out.println("Error: " + e);
+                    throw e;
+                }
+            }
+
         } catch (SQLException e) {
             System.out.println("Error: " + e);
             throw e;
@@ -155,6 +156,6 @@ public class Query {
                 connection.close();
             }
         }
-    	return done;
+        return done;
     }
 }

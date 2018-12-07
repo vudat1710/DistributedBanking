@@ -11,7 +11,6 @@ public class Account {
     private int balance;
     private String account_num;
 
-    
 
     public Account(String username, int userid, String password, int balance, String account_num, int DbId) {
         this.username = username;
@@ -24,7 +23,6 @@ public class Account {
     public Account() {
         // TODO Auto-generated constructor stub
     }
-
 
 
     public String getUsername() {

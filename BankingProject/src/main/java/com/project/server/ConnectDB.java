@@ -6,53 +6,53 @@ import java.sql.SQLException;
 import java.util.List;
 
 public class ConnectDB {
-	
-	private int dbId;
+
+    private int dbId;
     private String user;
     private String pass;
     private String dbDriver;
     private String dbClass = "com.mysql.jdbc.Driver";
-    
+
     public ConnectDB() {
-    	int a = Server.getWorkerListSize();
-    	dbId = (int)(a%2) + 1;
-    	switch(dbId) {
-    	case 1:
-    		System.out.println("1");
-    		user = "root";
-            pass = "tri200698";
-            dbDriver = "jdbc:mysql://localhost:3306/Distributed";
-            break;
-    	case 2:
-    		System.out.println("2");
-    		user = "root";
-            pass = "tri200698";
-            dbDriver = "jdbc:mysql://localhost:3306/Distributed2";
-            break;
-    	}
+        int a = Server.getWorkerListSize();
+        dbId = (int) (a % 2) + 1;
+        switch (dbId) {
+            case 1:
+                System.out.println("1");
+                user = "root";
+                pass = "tri200698";
+                dbDriver = "jdbc:mysql://localhost:3306/Distributed";
+                break;
+            case 2:
+                System.out.println("2");
+                user = "root";
+                pass = "tri200698";
+                dbDriver = "jdbc:mysql://localhost:3306/Distributed2";
+                break;
+        }
     }
-    
+
     public ConnectDB(int a) {
-    	switch(a) {
-    	case 1:
-    		System.out.println("1");
-    		user = "root";
-            pass = "tri200698";
-            dbDriver = "jdbc:mysql://localhost:3306/Distributed";
-            break;
-    	case 2:
-    		System.out.println("2");
-    		user = "root";
-            pass = "tri200698";
-            dbDriver = "jdbc:mysql://localhost:3306/Distributed2";
-            break;
-    	}
+        switch (a) {
+            case 1:
+                System.out.println("1");
+                user = "root";
+                pass = "tri200698";
+                dbDriver = "jdbc:mysql://localhost:3306/Distributed";
+                break;
+            case 2:
+                System.out.println("2");
+                user = "root";
+                pass = "tri200698";
+                dbDriver = "jdbc:mysql://localhost:3306/Distributed2";
+                break;
+        }
     }
-    
+
     public int getDbId() {
-    	return dbId;
+        return dbId;
     }
-    
+
     public Connection getConnection() throws SQLException {
         Connection conn = null;
         //load driver

@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class DynamicQuery {
-    Director d= new Director();
+    Director d = new Director();
 
     public class Select {
         private List<String> columns = new ArrayList<String>();
