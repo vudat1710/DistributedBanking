@@ -153,6 +153,7 @@ public class ServerWorker extends Thread {
                                     pw.println(mString);
                                     pw.println("\n\n---Press anything to continue---");
                                     reader.read();
+                                    //pw.flush();
 //                            outputStream.write(mString.getBytes());
                                 }
                             } else pw.println("da co nguoi dang nhap truoc ban, vui long cho");
@@ -168,6 +169,7 @@ public class ServerWorker extends Thread {
                                 pw.println(mString1);
                                 pw.println("\n\n---Press anything to continue---");
                                 reader.read();
+                                //pw.flush();
 //                        outputStream.write(mString1.getBytes());
                             } else pw.println("da co nguoi dang nhap truoc ban, vui long cho");
                             break;
@@ -182,6 +184,7 @@ public class ServerWorker extends Thread {
                             pw.println(mString2);
                             pw.println("\n\n---Press anything to continue---");
                             reader.read();
+                            //pw.flush();
 //                        outputStream.write(mString2.getBytes());
                             break;
                         case 4:
@@ -195,6 +198,7 @@ public class ServerWorker extends Thread {
                                 pw.println(mString1);
                                 pw.println("\n\n---Press anything to continue---");
                                 reader.read();
+                                //pw.flush();
 //                      outputStream.write(mString1.getBytes());
                             } else pw.println("da co nguoi dang nhap truoc ban, vui long cho");
                             break;
