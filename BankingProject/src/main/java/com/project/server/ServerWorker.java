@@ -46,6 +46,7 @@ public class ServerWorker extends Thread {
                     "------------Choose action you want to perform----------\n"
                             + "1. Register\n"
                             + "2. Login\n"
+                            + "3. Delete account\n"
                             + "Enter the number you want to choose: ";
             pwInput.println(menu);
             InputStream in = clientSocket.getInputStream();
@@ -102,6 +103,34 @@ public class ServerWorker extends Thread {
                         }
                     }
                     handleLogin(pw2, tokens2, reader2);
+                case 3:
+                	clearScreen(pwInput);
+                    String msg3 = "Enter username and password respectively: ";
+                    this.outputStream = clientSocket.getOutputStream();
+                    PrintWriter pw3 = new PrintWriter(outputStream, true);
+                    pw3.println(msg3);
+                    InputStream inputStream3 = clientSocket.getInputStream();
+                    BufferedReader reader3 = new BufferedReader(new InputStreamReader(inputStream3));
+                    String line3;
+                    List<String> tokens3 = new ArrayList<String>();
+                    while ((line3 = reader3.readLine()) != null) {
+                        System.out.println("token receive: " + line3);
+                        tokens3.add(line3);
+                        System.out.println("tokens size: " + tokens3.size());
+                        if (tokens3.size() == 2) {
+                            break;
+                        }
+                    }
+                    pw3.println("Your account is about to be deleted. Are you sure? (Press y to accept)");
+                    InputStream inputStream4 = clientSocket.getInputStream();
+                    BufferedReader reader4 =  new BufferedReader(new InputStreamReader(inputStream4));
+                    String line0 = reader4.readLine();
+                    if (line0.equals("y") || line0.equals("Y")) {
+                    	handleDeleteAccount(pw3, tokens3, reader3);
+                    }
+                    else {
+						pw3.println("Delete Failed! Bring you back to menu");
+					}
                 default:
                     break;
             }
@@ -308,9 +337,33 @@ public class ServerWorker extends Thread {
         return strings;
     }
 
-    public static void clearScreen(PrintWriter pw) {
+    private static void clearScreen(PrintWriter pw) {
         pw.print("\033[H\033[2J");
         pw.flush();
+    }
+    
+    private boolean handleDeleteAccount(PrintWriter pw, List<String> tokens, BufferedReader reader) throws SQLException {
+    	boolean done = false;
+        boolean done2 = false;
+        if (tokens.size() == 2) {
+            String username = tokens.get(0);
+            String password = tokens.get(1);
+            String acc_num = query.isInDB(username, password);
+            if (acc_num != null) {
+            	try {
+                    done = new Query(1).delete(username);
+                    done2 = new Query(2).delete(username);
+                    if (done && done2) {
+                        pw.println("Your account is deleted!");
+                        return true;
+                    }
+                } catch (SQLException e) {
+                    pw.println("Delete Failed! Not valid username or password!");
+                    return false;
+                }
+            }
+        }
+        return false;
     }
 
     private boolean handleLogoff(Identification identification) throws IOException {

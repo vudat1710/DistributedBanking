@@ -66,7 +66,6 @@ public class Bank {
     public int inquiry(String account_num) throws SQLException {
         int dbId = query.getDbId();
         if (!Consistency.check(account_num, dbId)) {
-            System.out.println("alo");
             Consistency.doConsistence(account_num, dbId, 0);
         }
         Account account = query.selectByAccNum(account_num);
@@ -132,5 +131,10 @@ public class Bank {
 //			return 0;
 //		}
         return done;
+    }
+    
+    public boolean deleteAccount(String username) throws SQLException {
+    	boolean done = query.delete(username);
+    	return done;
     }
 }

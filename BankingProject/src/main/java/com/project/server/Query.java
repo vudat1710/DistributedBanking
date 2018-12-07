@@ -5,6 +5,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+import com.project.server.DynamicQuery.Delete;
 import com.project.server.DynamicQuery.Insert;
 import com.project.server.DynamicQuery.Select;
 import com.project.server.DynamicQuery.Update;
@@ -147,6 +148,29 @@ public class Query {
                 }
             }
 
+        } catch (SQLException e) {
+            System.out.println("Error: " + e);
+            throw e;
+        } finally {
+            if (ps != null) {
+                ps.close();
+                connection.close();
+            }
+        }
+        return done;
+    }
+    
+    public boolean delete(String username) throws SQLException {
+    	boolean done = false;
+    	Connection connection = connectDB.getConnection();
+        Delete sql = d.new Delete()
+        		.table("account")
+        		.where(dr.equals("username", "\"" + username + "\""));
+        System.out.println(String.valueOf(sql));
+        PreparedStatement ps = connection.prepareStatement(String.valueOf(sql));
+        try {
+            ps.executeUpdate(String.valueOf(sql));
+            done = true;
         } catch (SQLException e) {
             System.out.println("Error: " + e);
             throw e;
