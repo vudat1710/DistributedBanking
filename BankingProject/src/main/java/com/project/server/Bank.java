@@ -39,6 +39,12 @@ public class Bank {
     public int withdraw(String account_num, int amount) throws SQLException {
         int dbId = query.getDbId();
         int temp_amount;
+        Account account = query.selectByAccNum(account_num);
+        int bal = account.getBalance();
+        if(amount > bal) {
+        	System.out.println("You are fucking poor");
+        	return bal;
+        }	
         if (!Consistency.check(account_num, dbId)) {
             int change = (-1) * amount;
             Consistency.doConsistence(account_num, dbId, change);
@@ -48,7 +54,7 @@ public class Bank {
             int temp = Consistency.getWS(account_num);
             temp_amount = temp + change;
         }
-        Account account = query.selectByAccNum(account_num);
+        
         if (account != null) {
             account.setBalance(account.getBalance() - amount);
             query.updateAcc(account);
@@ -81,6 +87,13 @@ public class Bank {
         int dbId = query.getDbId();
         int temp_amount1;
         int temp_amount2;
+        Account account = query.selectByAccNum(account_num);
+        Account receive = query.selectByAccNum(receiver);
+        int bal = account.getBalance();
+        if(amount>bal) {
+        	System.out.println("You are fucking poor");
+        	return bal;
+        }	
         if (!Consistency.check(account_num, dbId)) {
             System.out.println("sent");
             Consistency.doConsistence(account_num, dbId, (-1) * amount);
@@ -98,8 +111,7 @@ public class Bank {
             int temp = Consistency.getWS(account_num);
             temp_amount2 = temp + amount;
         }
-        Account account = query.selectByAccNum(account_num);
-        Account receive = query.selectByAccNum(receiver);
+        
         if (account != null) {
             account.setBalance(account.getBalance() - amount);
             receive.setBalance(receive.getBalance() + amount);
