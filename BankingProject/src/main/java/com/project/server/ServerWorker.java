@@ -100,9 +100,9 @@ public class ServerWorker extends Thread {
         }
     }
 
-    //    private void handleLogin(OutputStream outputStream, List<String> tokens) throws SQLException, IOException {
-    private void handleLogin(PrintWriter pw, List<String> tokens, BufferedReader reader) throws SQLException, IOException {
-        if (tokens.size() == 2) {
+    private boolean handleLogin(PrintWriter pw, List<String> tokens, BufferedReader reader) throws SQLException, IOException {
+    	boolean out = false;
+    	if (tokens.size() == 2) {
             String user = tokens.get(0);
             String password = tokens.get(1);
             pw.println("Dang login xin doi....");
@@ -116,7 +116,7 @@ public class ServerWorker extends Thread {
                 pw.println(msg);
                 Bank bank = new Bank(query);
 //                outputStream.write(msg.getBytes());
-                boolean out = false;
+                
                 while (!out) {
                     String menu =
                             "------------Choose action you want to perform----------\n"
@@ -192,6 +192,7 @@ public class ServerWorker extends Thread {
                 clientSocket.close();
             }
         }
+    	return out;
     }
 
     private boolean handleRegister(PrintWriter pw, List<String> tokens, BufferedReader reader) throws SQLException {
@@ -254,9 +255,10 @@ public class ServerWorker extends Thread {
         return strings;
     }
 
-    private void handleLogoff(Identification identification) throws IOException {
+    private boolean handleLogoff(Identification identification) throws IOException {
         MessageQueue.removeQueue(identification);
-        server.removeWorker(this);
-        clientSocket.close();
+        //server.removeWorker(this);
+        //clientSocket.close();
+        return true;
     }
 }
