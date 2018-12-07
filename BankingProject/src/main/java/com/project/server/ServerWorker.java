@@ -38,8 +38,8 @@ public class ServerWorker extends Thread {
 
     private void handleSocketClient() throws IOException, SQLException {
         // TODO Auto-generated method stub
-        boolean done = true;
-        while (done) {
+        boolean done = false;
+        while (!done) {
             OutputStream out = clientSocket.getOutputStream();
             PrintWriter pwInput = new PrintWriter(out, true);
             String menu =
@@ -70,10 +70,13 @@ public class ServerWorker extends Thread {
                         }
                     }
         
-                    done = !handleRegister(pw, tokens, reader);
-                    if(!done) {
+                    done = handleRegister(pw, tokens, reader);
+                    if(done) {
+                    	
                     	String acc_num = query.isInDB(tokens.get(0), tokens.get(1));
                     	pw.println("\n\n Your account number is: " + acc_num);
+                    	handleLogin(pw, tokens, reader);
+                    	done=false;
                     }
                 break;
                 case 2:

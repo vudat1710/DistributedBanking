@@ -133,7 +133,7 @@ public class Query {
                         .table("account")
                         .value("\"" + username + "\"")
                         .value(Integer.toString(userid + 1))
-                        .value(password)
+                        .value("\"" + password + "\"")
                         .value(Integer.toString(balance))
                         .value("\"" + Integer.toString(acc_num + 1) + "\"");
                 PreparedStatement ps1 = connection.prepareStatement(String.valueOf(sql1));
