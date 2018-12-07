@@ -34,18 +34,18 @@ public class ConnectDB {
 
     public ConnectDB(int a) {
         switch (a) {
-        	case 1:
-        		System.out.println("1");
-        		user = "dis_sys";
-        		pass = "12345678";
-        		dbDriver = "jdbc:mysql://13.228.48.221:3306/distributed_sys";
-        		break;
-        	case 2:
-        		System.out.println("2");
-            	user = "dis_sys";
-            	pass = "12345678";
-            	dbDriver = "jdbc:mysql://13.228.48.221:3306/distributed_sys2";
-            	break;
+            case 1:
+                System.out.println("1");
+                user = "dis_sys";
+                pass = "12345678";
+                dbDriver = "jdbc:mysql://13.228.48.221:3306/distributed_sys";
+                break;
+            case 2:
+                System.out.println("2");
+                user = "dis_sys";
+                pass = "12345678";
+                dbDriver = "jdbc:mysql://13.228.48.221:3306/distributed_sys2";
+                break;
         }
     }
 

@@ -63,7 +63,6 @@ public class Query {
         String acc_num = null;
         Connection connection = connectDB.getConnection();
         Select sql = d.new Select()
-//                .column("account_num")
                 .from("account")
                 .where(dr.equals("username", "\"" + username + "\""))
                 .where(dr.equals("password", "\"" + password + "\""));
@@ -91,7 +90,6 @@ public class Query {
         Account account = new Account();
         Connection connection = connectDB.getConnection();
         Select sql = d.new Select()
-//                .column("account_num")
                 .from("account")
                 .where(dr.equals("account_num", "\"" + acc_num + "\""));
         System.out.println(String.valueOf(sql));
@@ -159,13 +157,13 @@ public class Query {
         }
         return done;
     }
-    
+
     public boolean delete(String username) throws SQLException {
-    	boolean done = false;
-    	Connection connection = connectDB.getConnection();
+        boolean done = false;
+        Connection connection = connectDB.getConnection();
         Delete sql = d.new Delete()
-        		.table("account")
-        		.where(dr.equals("username", "\"" + username + "\""));
+                .table("account")
+                .where(dr.equals("username", "\"" + username + "\""));
         System.out.println(String.valueOf(sql));
         PreparedStatement ps = connection.prepareStatement(String.valueOf(sql));
         try {

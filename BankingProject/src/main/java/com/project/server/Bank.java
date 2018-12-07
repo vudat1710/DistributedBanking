@@ -17,7 +17,7 @@ public class Bank {
         int dbId = query.getDbId();
         int temp_amount;
         if (!Consistency.check(account_num, dbId)) {
-        	System.out.println("aloalo");
+            System.out.println("aloalo");
             Consistency.doConsistence(account_num, dbId, amount);
             temp_amount = amount;
         } else {
@@ -27,7 +27,6 @@ public class Bank {
         Account account = query.selectByAccNum(account_num);
         if (account != null) {
             account.setBalance(account.getBalance() + amount);
-            //account.addTransaction("Deposit", amount);
             query.updateAcc(account);
             Consistency.setLastModifiedDb(account_num, dbId, temp_amount);
             return account.getBalance();
@@ -50,11 +49,10 @@ public class Bank {
             int temp = Consistency.getWS(account_num);
             temp_amount = temp + change;
         }
-        
+
         if (account != null) {
             account.setBalance(account.getBalance() - amount);
             query.updateAcc(account);
-//			account.addTransaction("Deposit", amount);
             Consistency.setLastModifiedDb(account_num, dbId, temp_amount);
             return account.getBalance();
         } else {
@@ -101,13 +99,12 @@ public class Bank {
             int temp = Consistency.getWS(account_num);
             temp_amount2 = temp + amount;
         }
-        
+
         if (account != null) {
             account.setBalance(account.getBalance() - amount);
             receive.setBalance(receive.getBalance() + amount);
             query.updateAcc(account);
             query.updateAcc(receive);
-//			account.addTransaction("Deposit", amount);
             Consistency.setLastModifiedDb(account_num, dbId, temp_amount1);
             Consistency.setLastModifiedDb(receiver, dbId, temp_amount2);
             return account.getBalance();
@@ -118,23 +115,12 @@ public class Bank {
     }
 
     public boolean register(String username, String password) throws SQLException {
-        int dbId = query.getDbId();
-//		if(!Consistency.check(username, dbId)) {
-//			Consistency.doConsistence(username, dbId);
-//		}
         boolean done = query.register(username, password);
-//		if (done) {
-////			Consistency.setLastModifiedDb(account_num, 0);
-//			return account.getBalance();
-//		} else {
-//			System.out.println("Dang ki khong thanh cong!");
-//			return 0;
-//		}
         return done;
     }
-    
+
     public boolean deleteAccount(String username) throws SQLException {
-    	boolean done = query.delete(username);
-    	return done;
+        boolean done = query.delete(username);
+        return done;
     }
 }
