@@ -80,8 +80,8 @@ public class ServerWorker extends Thread {
                         pw.println("\n\n---Press anything to login---");
                         reader.read();
                         clearScreen(pw);
-                        handleLogin(pw, tokens, reader);
-                        done = false;
+                        done = handleLogin(pw, tokens, reader);
+//                        done = false;
                     }
                     break;
                 case 2:
@@ -121,15 +121,20 @@ public class ServerWorker extends Thread {
                             break;
                         }
                     }
-                    pw3.println("Your account is about to be deleted. Are you sure? (Press y to accept)");
-                    InputStream inputStream4 = clientSocket.getInputStream();
-                    BufferedReader reader4 =  new BufferedReader(new InputStreamReader(inputStream4));
-                    String line0 = reader4.readLine();
-                    if (line0.equals("y") || line0.equals("Y")) {
-                    	handleDeleteAccount(pw3, tokens3, reader3);
-                    }
-                    else {
-						pw3.println("Delete Failed! Bring you back to menu");
+                    String acc_num = query.isInDB(tokens3.get(0), tokens3.get(1));
+                    if (acc_num != null) {
+                    	pw3.println("Your account is about to be deleted. Are you sure? (Press y to accept)");
+                    	InputStream inputStream4 = clientSocket.getInputStream();
+                    	BufferedReader reader4 =  new BufferedReader(new InputStreamReader(inputStream4));
+                    	String line0 = reader4.readLine();
+                    	if (line0.equals("y") || line0.equals("Y")) {
+                    		handleDeleteAccount(pw3, tokens3, reader3);
+                    	}
+                    	else {
+                    		pw3.println("Delete Failed! Bring you back to menu");
+                    	}
+                    } else {
+                    	pw3.println("Delete Failed! Not valid username or password!");
 					}
                 default:
                     break;
@@ -358,16 +363,18 @@ public class ServerWorker extends Thread {
                         return true;
                     }
                 } catch (SQLException e) {
-                    pw.println("Delete Failed! Not valid username or password!");
-                    return false;
+                    System.out.println(e);
+                    throw e;
                 }
+            } else {
+            	pw.println("Delete Failed! Not valid username or password!");
+            	return false;
             }
         }
         return false;
     }
 
     private boolean handleLogoff(Identification identification) throws IOException {
-        MessageQueue.removeQueue(identification);
         //server.removeWorker(this);
         //clientSocket.close();
         return true;
