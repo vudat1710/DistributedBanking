@@ -73,7 +73,8 @@ public class ServerWorker extends Thread {
                 done = !handleRegister(pw, tokens, reader);
                 if(!done) {
                 String acc_num = query.isInDB(tokens.get(0), tokens.get(1));
-            	pw.println("\n\n Your account number is: " + acc_num);}
+            	pw.println("\n\n Your account number is: " + acc_num);
+            	}
                 break;
         	case 2:
         		String msg2 = "Enter username and password respectively: ";
@@ -210,7 +211,7 @@ public class ServerWorker extends Thread {
             		}
             	}
             catch(SQLException e) {
-				pw.println("Register Failed!");
+				pw.println("Register Failed! Your username is being used");
 				return false;
 			}
     	}
