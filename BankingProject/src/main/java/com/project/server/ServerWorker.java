@@ -52,7 +52,7 @@ public class ServerWorker extends Thread {
             BufferedReader reader1 = new BufferedReader(new InputStreamReader(in));
             switch (Integer.parseInt(reader1.readLine())) {
                 case 1:
-                	clearScreen(pwInput);
+                    clearScreen(pwInput);
                     String msg = "Enter username and password respectively: ";
                     this.outputStream = clientSocket.getOutputStream();
                     PrintWriter pw = new PrintWriter(outputStream, true);
@@ -70,21 +70,21 @@ public class ServerWorker extends Thread {
                             break;
                         }
                     }
-        
+
                     done = handleRegister(pw, tokens, reader);
-                    if(done) {
-                    	
-                    	String acc_num = query.isInDB(tokens.get(0), tokens.get(1));
-                    	pw.println("\n\n Your account number is: " + acc_num);
-                    	pw.println("\n\n---Press anything to login---");
+                    if (done) {
+
+                        String acc_num = query.isInDB(tokens.get(0), tokens.get(1));
+                        pw.println("\n\n Your account number is: " + acc_num);
+                        pw.println("\n\n---Press anything to login---");
                         reader.read();
                         clearScreen(pw);
-                    	handleLogin(pw, tokens, reader);
-                    	done=false;
+                        handleLogin(pw, tokens, reader);
+                        done = false;
                     }
-                break;
+                    break;
                 case 2:
-                	clearScreen(pwInput);
+                    clearScreen(pwInput);
                     String msg2 = "Enter username and password respectively: ";
                     this.outputStream = clientSocket.getOutputStream();
                     PrintWriter pw2 = new PrintWriter(outputStream, true);
@@ -109,8 +109,8 @@ public class ServerWorker extends Thread {
     }
 
     private boolean handleLogin(PrintWriter pw, List<String> tokens, BufferedReader reader) throws SQLException, IOException {
-    	boolean out = false;
-    	if (tokens.size() == 2) {
+        boolean out = false;
+        if (tokens.size() == 2) {
             String user = tokens.get(0);
             String password = tokens.get(1);
             pw.println("Loging in please wait....");
@@ -119,17 +119,17 @@ public class ServerWorker extends Thread {
 //            if (user.equals("aa") && password.equals("bb")) {
                 Identification identification = new Identification(user, "port::" + clientSocket.getPort());
                 System.out.println(identification.toString());
-                MessageQueue.addMQueue(identification);
                 String msg = "Login successfully!";
                 pw.println(msg);
                 pw.println("\n\n---Press anything to continue---");
-                reader.read();
+                reader.readLine();
+
                 //clearScreen(pw);
                 Bank bank = new Bank(query);
 //                outputStream.write(msg.getBytes());
-                
+
                 while (!out) {
-                	clearScreen(pw);
+                    clearScreen(pw);
                     String menu =
                             "------------Choose action you want to perform----------\n"
                                     + "1. Deposit\n"
@@ -144,34 +144,48 @@ public class ServerWorker extends Thread {
                     List<String> strings = new ArrayList();
                     switch (Integer.parseInt(reader.readLine())) {
                         case 1:
+                            MessageQueue.addMQueue(identification);
                             if (!identification.isReadOnly()) {
                                 pw.println("case 1");
                                 strings = enterAmount(outputStream);
                                 int depositResult = bank.deposit(acc_num, Integer.parseInt(strings.get(0)));
                                 if (depositResult != 0) {
                                     String mString = "Your balance now is: " + depositResult;
+                                    MessageQueue.removeQueue(identification);
+                                    identification.setReadOnly(false);
                                     pw.println(mString);
                                     pw.println("\n\n---Press anything to continue---");
-                                    reader.read();
-                                    //pw.flush();
+                                    reader.readLine();
 //                            outputStream.write(mString.getBytes());
                                 }
-                            } else pw.println("da co nguoi dang nhap truoc ban, vui long cho");
+                            } else {
+                                MessageQueue.removeQueue(identification);
+                                identification.setReadOnly(false);
+                                pw.println("da co nguoi dang nhap truoc ban, vui long cho");
+                                reader.readLine();
+                            }
                             break;
                         case 2:
+                            MessageQueue.addMQueue(identification);
                             if (!identification.isReadOnly()) {
                                 strings = enterAmount(outputStream);
-                                if(query.selectByAccNum(acc_num).getBalance() < Integer.parseInt(strings.get(0))) {
-                                	pw.println("You do not have enough money to compelete the transaction!");
+                                if (query.selectByAccNum(acc_num).getBalance() < Integer.parseInt(strings.get(0))) {
+                                    pw.println("You do not have enough money to compelete the transaction!");
                                 }
                                 int withdrawResult = bank.withdraw(acc_num, Integer.parseInt(strings.get(0)));
                                 String mString1 = "Your balance now is: " + withdrawResult;
+                                MessageQueue.removeQueue(identification);
+                                identification.setReadOnly(false);
                                 pw.println(mString1);
                                 pw.println("\n\n---Press anything to continue---");
-                                reader.read();
-                                //pw.flush();
+                                reader.readLine();
 //                        outputStream.write(mString1.getBytes());
-                            } else pw.println("da co nguoi dang nhap truoc ban, vui long cho");
+                            } else {
+                                MessageQueue.removeQueue(identification);
+                                identification.setReadOnly(false);
+                                pw.println("da co nguoi dang nhap truoc ban, vui long cho");
+                                reader.readLine();
+                            }
                             break;
                         case 3:
 //                            String msg1 = "Enter account number: ";
@@ -183,24 +197,30 @@ public class ServerWorker extends Thread {
                             String mString2 = "Your current balance is: " + balance;
                             pw.println(mString2);
                             pw.println("\n\n---Press anything to continue---");
-                            reader.read();
-                            //pw.flush();
+                            reader.readLine();
 //                        outputStream.write(mString2.getBytes());
                             break;
                         case 4:
+                            MessageQueue.addMQueue(identification);
                             if (!identification.isReadOnly()) {
                                 strings = enterArgs(outputStream);
-                                if(query.selectByAccNum(acc_num).getBalance() < Integer.parseInt(strings.get(0))) {
-                                	pw.println("You do not have enough money to compelete the transaction!");
+                                if (query.selectByAccNum(acc_num).getBalance() < Integer.parseInt(strings.get(0))) {
+                                    pw.println("You do not have enough money to compelete the transaction!");
                                 }
                                 int withdrawResult = bank.transfer(acc_num, strings.get(0), Integer.parseInt(strings.get(1)));
                                 String mString1 = "Your balance now is: " + withdrawResult;
+                                MessageQueue.removeQueue(identification);
+                                identification.setReadOnly(false);
                                 pw.println(mString1);
                                 pw.println("\n\n---Press anything to continue---");
-                                reader.read();
-                                //pw.flush();
+                                reader.readLine();
 //                      outputStream.write(mString1.getBytes());
-                            } else pw.println("da co nguoi dang nhap truoc ban, vui long cho");
+                            } else {
+                                MessageQueue.removeQueue(identification);
+                                identification.setReadOnly(false);
+                                pw.println("da co nguoi dang nhap truoc ban, vui long cho");
+                                reader.readLine();
+                            }
                             break;
                         case 5:
                             handleLogoff(identification);
@@ -208,9 +228,12 @@ public class ServerWorker extends Thread {
                             clearScreen(pw);
                             break;
                         case 1507:
+                            System.out.println("permission:" + identification.isReadOnly());
                             pw.println("permission:" + identification.isReadOnly());
+                            reader.readLine();
                             break;
                         default:
+                            reader.readLine();
                             break;
                     }
                 }
@@ -224,7 +247,7 @@ public class ServerWorker extends Thread {
                 return out;
             }
         }
-    	return out;
+        return out;
     }
 
     private boolean handleRegister(PrintWriter pw, List<String> tokens, BufferedReader reader) throws SQLException {
@@ -235,19 +258,18 @@ public class ServerWorker extends Thread {
             String password = tokens.get(1);
             pw.println("Dang dang ki xin doi....");
             try {
-            	done =  new Query(1).register(username, password);
-            	done2 = new Query(2).register(username, password);
-            	if (done && done2) {
-            		pw.println("Register successful!");
-            		return true;
-            		}
-            	}
-            catch(SQLException e) {
-				pw.println("Register Failed! Your username is being used");
-				return false;
-			}
-    	}
-    	return false;
+                done = new Query(1).register(username, password);
+                done2 = new Query(2).register(username, password);
+                if (done && done2) {
+                    pw.println("Register successful!");
+                    return true;
+                }
+            } catch (SQLException e) {
+                pw.println("Register Failed! Your username is being used");
+                return false;
+            }
+        }
+        return false;
     }
 
     private List<String> enterArgs(OutputStream outputStream) throws IOException {
@@ -286,11 +308,11 @@ public class ServerWorker extends Thread {
         return strings;
     }
 
-    public static void clearScreen(PrintWriter pw) {  
-        pw.print("\033[H\033[2J");  
-        pw.flush();  
-       }
-    
+    public static void clearScreen(PrintWriter pw) {
+        pw.print("\033[H\033[2J");
+        pw.flush();
+    }
+
     private boolean handleLogoff(Identification identification) throws IOException {
         MessageQueue.removeQueue(identification);
         //server.removeWorker(this);
