@@ -152,7 +152,7 @@ public class Consistency {
     }
 
     public static void doConsistence(String acc_num, int dbId, int amount) throws SQLException {
-        amount += lastModifiedDb.get(acc_num)[1];
+        amount = lastModifiedDb.get(acc_num)[1];
         System.out.println(amount);
         new Query(dbId).updateBalance(acc_num, amount);
         Integer[] value = {0, 0};

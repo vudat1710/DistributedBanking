@@ -17,6 +17,7 @@ public class Bank {
         int dbId = query.getDbId();
         int temp_amount;
         if (!Consistency.check(account_num, dbId)) {
+        	System.out.println("aloalo");
             Consistency.doConsistence(account_num, dbId, amount);
             temp_amount = amount;
         } else {
@@ -40,11 +41,6 @@ public class Bank {
         int dbId = query.getDbId();
         int temp_amount;
         Account account = query.selectByAccNum(account_num);
-        int bal = account.getBalance();
-        if(amount > bal) {
-        	System.out.println("You are fucking poor");
-        	return bal;
-        }	
         if (!Consistency.check(account_num, dbId)) {
             int change = (-1) * amount;
             Consistency.doConsistence(account_num, dbId, change);
@@ -89,11 +85,6 @@ public class Bank {
         int temp_amount2;
         Account account = query.selectByAccNum(account_num);
         Account receive = query.selectByAccNum(receiver);
-        int bal = account.getBalance();
-        if(amount>bal) {
-        	System.out.println("You are fucking poor");
-        	return bal;
-        }	
         if (!Consistency.check(account_num, dbId)) {
             System.out.println("sent");
             Consistency.doConsistence(account_num, dbId, (-1) * amount);
