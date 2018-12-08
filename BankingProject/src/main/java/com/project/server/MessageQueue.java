@@ -26,7 +26,7 @@ public class MessageQueue {
             queue.add(identification);
             mQueue.put(identification.getUser(), queue);
         }
-        System.out.println("Queue " + identification.getUser() + " has " + mQueue.get(identification.getUser()).size() + " access:" +identification.isReadOnly());
+        System.out.println("Queue " + identification.getUser() + " has " + mQueue.get(identification.getUser()).size() + " access:" + identification.isReadOnly());
         return identification.isReadOnly();
     }
 
