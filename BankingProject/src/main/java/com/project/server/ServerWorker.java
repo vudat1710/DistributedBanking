@@ -72,6 +72,8 @@ public class ServerWorker extends Thread {
                     }
 
                     done = handleRegister(pw, tokens, reader);
+                    pw.println("\n---Press anything to login---");
+                    reader.read();
                     if (done) {
 
                         String acc_num = query.isInDB(tokens.get(0), tokens.get(1));
