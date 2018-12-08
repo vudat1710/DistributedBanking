@@ -42,6 +42,7 @@ public class ServerWorker extends Thread {
         while (!done) {
             OutputStream out = clientSocket.getOutputStream();
             PrintWriter pwInput = new PrintWriter(out, true);
+            clearScreen(pwInput);
             String menu =
                     "------------Choose action you want to perform----------\n"
                             + "1. Register\n"
@@ -76,14 +77,13 @@ public class ServerWorker extends Thread {
                     pw.println("\n---Press anything to login---");
                     reader.read();
                     if (done) {
-
                         String acc_num = query.isInDB(tokens.get(0), tokens.get(1));
                         pw.println("\n\n Your account number is: " + acc_num);
                         pw.println("\n\n---Press anything to login---");
                         reader.read();
                         clearScreen(pw);
-                        done = handleLogin(pw, tokens, reader);
-//                        done = false;
+                        handleLogin(pw, tokens, reader);
+                        done = false;
                     }
                     break;
                 case 2:
@@ -105,6 +105,7 @@ public class ServerWorker extends Thread {
                         }
                     }
                     handleLogin(pw2, tokens2, reader2);
+                    break;
                 case 3:
                     clearScreen(pwInput);
                     String msg3 = "Enter username and password respectively: ";
@@ -137,6 +138,8 @@ public class ServerWorker extends Thread {
                     } else {
                         pw3.println("Delete Failed! Not valid username or password!");
                     }
+                    inputStream3.read();
+                    break;
                 default:
                     break;
             }
@@ -204,10 +207,13 @@ public class ServerWorker extends Thread {
                             MessageQueue.addMQueue(identification);
                             if (!identification.isReadOnly()) {
                                 strings = enterAmount(outputStream);
+                                int withdrawResult = query.selectByAccNum(acc_num).getBalance();
                                 if (query.selectByAccNum(acc_num).getBalance() < Integer.parseInt(strings.get(0))) {
                                     pw.println("You do not have enough money to compelete the transaction!");
                                 }
-                                int withdrawResult = bank.withdraw(acc_num, Integer.parseInt(strings.get(0)));
+                                else {
+                                	withdrawResult = bank.withdraw(acc_num, Integer.parseInt(strings.get(0)));
+                                }
                                 String mString1 = "Your balance now is: " + withdrawResult;
                                 MessageQueue.removeQueue(identification);
                                 identification.setReadOnly(false);
@@ -239,10 +245,13 @@ public class ServerWorker extends Thread {
                             MessageQueue.addMQueue(identification);
                             if (!identification.isReadOnly()) {
                                 strings = enterArgs(outputStream);
-                                if (query.selectByAccNum(acc_num).getBalance() < Integer.parseInt(strings.get(0))) {
+                                int withdrawResult = query.selectByAccNum(acc_num).getBalance();
+                                if (query.selectByAccNum(acc_num).getBalance() < Integer.parseInt(strings.get(1))) {
                                     pw.println("You do not have enough money to compelete the transaction!");
                                 }
-                                int withdrawResult = bank.transfer(acc_num, strings.get(0), Integer.parseInt(strings.get(1)));
+                                else {
+                                	withdrawResult = bank.transfer(acc_num, strings.get(0), Integer.parseInt(strings.get(1)));
+                                }
                                 String mString1 = "Your balance now is: " + withdrawResult;
                                 MessageQueue.removeQueue(identification);
                                 identification.setReadOnly(false);

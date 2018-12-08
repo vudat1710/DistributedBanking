@@ -17,8 +17,7 @@ public class Bank {
         int dbId = query.getDbId();
         int temp_amount;
         if (!Consistency.check(account_num, dbId)) {
-            System.out.println("aloalo");
-            Consistency.doConsistence(account_num, dbId, amount);
+            Consistency.doConsistence(account_num, dbId);
             temp_amount = amount;
         } else {
             int temp = Consistency.getWS(account_num);
@@ -42,7 +41,7 @@ public class Bank {
         Account account = query.selectByAccNum(account_num);
         if (!Consistency.check(account_num, dbId)) {
             int change = (-1) * amount;
-            Consistency.doConsistence(account_num, dbId, change);
+            Consistency.doConsistence(account_num, dbId);
             temp_amount = change;
         } else {
             int change = (-1) * amount;
@@ -64,11 +63,12 @@ public class Bank {
     public int inquiry(String account_num) throws SQLException {
         int dbId = query.getDbId();
         if (!Consistency.check(account_num, dbId)) {
-            Consistency.doConsistence(account_num, dbId, 0);
+            Consistency.doConsistence(account_num, dbId);
+            Consistency.setLastModifiedDb(account_num, 0, 0);
         }
         Account account = query.selectByAccNum(account_num);
         if (account != null) {
-            Consistency.setLastModifiedDb(account_num, 0, 0);
+            
             return account.getBalance();
         } else {
             System.out.println("Not valid account number!");
@@ -84,7 +84,7 @@ public class Bank {
         Account receive = query.selectByAccNum(receiver);
         if (!Consistency.check(account_num, dbId)) {
             System.out.println("sent");
-            Consistency.doConsistence(account_num, dbId, (-1) * amount);
+            Consistency.doConsistence(account_num, dbId);
             temp_amount1 = (-1) * amount;
         } else {
             int change = (-1) * amount;
@@ -93,7 +93,7 @@ public class Bank {
         }
         if (!Consistency.check(receiver, dbId)) {
             System.out.println("rev");
-            Consistency.doConsistence(receiver, dbId, amount);
+            Consistency.doConsistence(receiver, dbId);
             temp_amount2 = amount;
         } else {
             int temp = Consistency.getWS(account_num);
