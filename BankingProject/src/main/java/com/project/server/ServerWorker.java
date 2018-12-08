@@ -52,8 +52,8 @@ public class ServerWorker extends Thread {
             pwInput.println(menu);
             InputStream in = clientSocket.getInputStream();
             BufferedReader reader1 = new BufferedReader(new InputStreamReader(in));
-            switch (Integer.parseInt(reader1.readLine())) {
-                case 1:
+            switch (reader1.readLine()) {
+                case "1":
                     clearScreen(pwInput);
                     String msg = "Enter username and password respectively: ";
                     this.outputStream = clientSocket.getOutputStream();
@@ -86,7 +86,7 @@ public class ServerWorker extends Thread {
                         done = false;
                     }
                     break;
-                case 2:
+                case "2":
                     clearScreen(pwInput);
                     String msg2 = "Enter username and password respectively: ";
                     this.outputStream = clientSocket.getOutputStream();
@@ -106,7 +106,7 @@ public class ServerWorker extends Thread {
                     }
                     handleLogin(pw2, tokens2, reader2);
                     break;
-                case 3:
+                case "3":
                     clearScreen(pwInput);
                     String msg3 = "Enter username and password respectively: ";
                     this.outputStream = clientSocket.getOutputStream();
@@ -132,15 +132,21 @@ public class ServerWorker extends Thread {
                         String line0 = reader4.readLine();
                         if (line0.equals("y") || line0.equals("Y")) {
                             handleDeleteAccount(pw3, tokens3, reader3);
+                            pw3.println("\n\n---Press anything to continue---");
+                            reader3.readLine();
                         } else {
                             pw3.println("Delete Failed! Bring you back to menu");
+                            pw3.println("\n\n---Press anything to continue---");
+                            reader3.readLine();
                         }
                     } else {
                         pw3.println("Delete Failed! Not valid username or password!");
+                        pw3.println("\n\n---Press anything to continue---");
+                        reader3.readLine();
                     }
-                    inputStream3.read();
                     break;
                 default:
+                	reader1.readLine();
                     break;
             }
         }
@@ -154,17 +160,13 @@ public class ServerWorker extends Thread {
             pw.println("Loging in please wait....");
             String acc_num = query.isInDB(user, password);
             if (acc_num != null) {
-//            if (user.equals("aa") && password.equals("bb")) {
                 Identification identification = new Identification(user, "port::" + clientSocket.getPort());
                 System.out.println(identification.toString());
                 String msg = "Login successfully!";
                 pw.println(msg);
                 pw.println("\n\n---Press anything to continue---");
                 reader.readLine();
-
-                //clearScreen(pw);
                 Bank bank = new Bank(query);
-//                outputStream.write(msg.getBytes());
 
                 while (!out) {
                     clearScreen(pw);
@@ -180,8 +182,8 @@ public class ServerWorker extends Thread {
                     pw.println(menu);
 
                     List<String> strings = new ArrayList();
-                    switch (Integer.parseInt(reader.readLine())) {
-                        case 1:
+                    switch (reader.readLine()) {
+                        case "1":
                             MessageQueue.addMQueue(identification);
                             if (!identification.isReadOnly()) {
                                 pw.println("case 1");
@@ -203,7 +205,7 @@ public class ServerWorker extends Thread {
                                 reader.readLine();
                             }
                             break;
-                        case 2:
+                        case "2":
                             MessageQueue.addMQueue(identification);
                             if (!identification.isReadOnly()) {
                                 strings = enterAmount(outputStream);
@@ -220,7 +222,6 @@ public class ServerWorker extends Thread {
                                 pw.println(mString1);
                                 pw.println("\n\n---Press anything to continue---");
                                 reader.readLine();
-//                        outputStream.write(mString1.getBytes());
                             } else {
                                 MessageQueue.removeQueue(identification);
                                 identification.setReadOnly(false);
@@ -228,20 +229,14 @@ public class ServerWorker extends Thread {
                                 reader.readLine();
                             }
                             break;
-                        case 3:
-//                            String msg1 = "Enter account number: ";
-//                            pw.println(msg1);
-////                        outputStream.write(msg1.getBytes());
-//                            InputStream inputStream1 = clientSocket.getInputStream();
-//                            BufferedReader reader1 = new BufferedReader(new InputStreamReader(inputStream1));
+                        case "3":
                             int balance = bank.inquiry(acc_num);
                             String mString2 = "Your current balance is: " + balance;
                             pw.println(mString2);
                             pw.println("\n\n---Press anything to continue---");
                             reader.readLine();
-//                        outputStream.write(mString2.getBytes());
                             break;
-                        case 4:
+                        case "4":
                             MessageQueue.addMQueue(identification);
                             if (!identification.isReadOnly()) {
                                 strings = enterArgs(outputStream);
@@ -258,7 +253,6 @@ public class ServerWorker extends Thread {
                                 pw.println(mString1);
                                 pw.println("\n\n---Press anything to continue---");
                                 reader.readLine();
-//                      outputStream.write(mString1.getBytes());
                             } else {
                                 MessageQueue.removeQueue(identification);
                                 identification.setReadOnly(false);
@@ -266,12 +260,12 @@ public class ServerWorker extends Thread {
                                 reader.readLine();
                             }
                             break;
-                        case 5:
+                        case "5":
                             handleLogoff(identification);
                             out = true;
                             clearScreen(pw);
                             break;
-                        case 1507:
+                        case "1507":
                             System.out.println("permission:" + identification.isReadOnly());
                             pw.println("permission:" + identification.isReadOnly());
                             reader.readLine();
@@ -286,8 +280,6 @@ public class ServerWorker extends Thread {
                 pw.println(msg);
                 pw.println("\n\n---Press anything to continue---");
                 reader.read();
-                //server.removeWorker(this);
-                //clientSocket.close();
                 return out;
             }
         }
