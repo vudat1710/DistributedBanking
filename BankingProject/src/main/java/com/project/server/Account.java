@@ -1,9 +1,5 @@
 package com.project.server;
 
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-
 public class Account {
     private String username;
     private int userid;
