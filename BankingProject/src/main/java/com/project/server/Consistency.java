@@ -14,6 +14,7 @@ public class Consistency {
 
     private static final String FILE_NAME = "./consistence.txt";
     private static Map<String, Integer[]> lastModifiedDb = new HashMap<>();
+    private  boolean isChanging = false;
 
     public static void genConsistency() {
         BufferedReader br = null;
@@ -127,11 +128,13 @@ public class Consistency {
     public static boolean check(String acc_num, int dbId) {
         if (getLastModifiedDb(acc_num) > 0) {
             return lastModifiedDb.get(acc_num)[0] == dbId;
-        } else {
+        }
+        else if(getLastModifiedDb(acc_num) < 0)
+        {
             Integer[] value = {dbId, 0};
             lastModifiedDb.put(acc_num, value);
-            return true;
         }
+        return true;
 
     }
 
@@ -152,7 +155,7 @@ public class Consistency {
     }
 
     public static void doConsistence(String acc_num, int dbId) throws SQLException {
-        int amount = lastModifiedDb.get(acc_num)[1];
+    	int amount = lastModifiedDb.get(acc_num)[1];
         System.out.println(amount);
         new Query(dbId).updateBalance(acc_num, amount);
         Integer[] value = {0, 0};

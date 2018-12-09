@@ -230,7 +230,14 @@ public class ServerWorker extends Thread {
                             }
                             break;
                         case "3":
-                            int balance = bank.inquiry(acc_num);
+                        	int balance;
+                        	if (!identification.isReadOnly()) {
+                        		System.out.println("alo");
+                        		balance = bank.inquiry2(acc_num);
+                            }
+                        	else {
+                        		balance = bank.inquiry1(acc_num);
+                        	}
                             String mString2 = "Your current balance is: " + balance;
                             pw.println(mString2);
                             pw.println("\n\n---Press anything to continue---");
